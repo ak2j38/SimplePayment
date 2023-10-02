@@ -1,0 +1,10 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  application:
+    name: SimplePayment
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/sample?useSSL=false&serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
+    username: user
+    password: 1234
