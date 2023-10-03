@@ -30,17 +30,11 @@ class Article(
     @Column("CREATED_AT")
     val createdAt: LocalDateTime = LocalDateTime.now(),
 
-    @CreatedBy
-    @Column("CREATED_BY")
-    val createdBy: Long,
 
     @LastModifiedDate
     @Column("UPDATED_AT")
     var updatedAt: LocalDateTime = LocalDateTime.now(),
 
-    @LastModifiedBy
-    @Column("UPDATED_BY")
-    var updatedBy: Long
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -53,9 +47,7 @@ class Article(
         if (content != other.content) return false
         if (authorId != other.authorId) return false
         if (createdAt != other.createdAt) return false
-        if (createdBy != other.createdBy) return false
         if (updatedAt != other.updatedAt) return false
-        if (updatedBy != other.updatedBy) return false
 
         return true
     }
@@ -66,9 +58,7 @@ class Article(
         result = 31 * result + (content?.hashCode() ?: 0)
         result = 31 * result + (authorId?.hashCode() ?: 0)
         result = 31 * result + createdAt.hashCode()
-        result = 31 * result + createdBy.hashCode()
         result = 31 * result + updatedAt.hashCode()
-        result = 31 * result + updatedBy.hashCode()
         return result
     }
 }
