@@ -23,4 +23,11 @@ class ArticleService(
     suspend fun get(id: Long): Article  =
         articleRepository.findById(id) ?: throw NotFoundArticleException("Article not found")
 
+    suspend fun getAll(title: String?) =
+        if (title.isNullOrBlank()) {
+            articleRepository.findAll()
+        } else {
+            articleRepository.findAllByTitleContains(title)
+        }
+
 }
