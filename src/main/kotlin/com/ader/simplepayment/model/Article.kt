@@ -20,15 +20,15 @@ class Article(
     @Column("TITLE")
     var title: String? = null,
 
-    @Column("BODY")
-    var body: String? = null,
+    @Column("CONTENT")
+    var content: String? = null,
 
     @Column("AUTHOR_ID")
     var authorId: Long? = null,
 
     @CreatedDate
     @Column("CREATED_AT")
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime = LocalDateTime.now(),
 
     @CreatedBy
     @Column("CREATED_BY")
@@ -36,7 +36,7 @@ class Article(
 
     @LastModifiedDate
     @Column("UPDATED_AT")
-    var updatedAt: LocalDateTime,
+    var updatedAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedBy
     @Column("UPDATED_BY")
@@ -50,7 +50,7 @@ class Article(
 
         if (id != other.id) return false
         if (title != other.title) return false
-        if (body != other.body) return false
+        if (content != other.content) return false
         if (authorId != other.authorId) return false
         if (createdAt != other.createdAt) return false
         if (createdBy != other.createdBy) return false
@@ -63,7 +63,7 @@ class Article(
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + (title?.hashCode() ?: 0)
-        result = 31 * result + (body?.hashCode() ?: 0)
+        result = 31 * result + (content?.hashCode() ?: 0)
         result = 31 * result + (authorId?.hashCode() ?: 0)
         result = 31 * result + createdAt.hashCode()
         result = 31 * result + createdBy.hashCode()
