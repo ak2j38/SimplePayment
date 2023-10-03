@@ -18,8 +18,6 @@ class SimplePaymentApplicationTests(
 				title = "test",
 				content = "test",
 				authorId = 1,
-				createdBy = 1,
-				updatedBy = 1
 			)
 		)
 		val current = articleRepository.count()

@@ -28,8 +28,7 @@ class Article(
 
     @CreatedDate
     @Column("CREATED_AT")
-    val createdAt: LocalDateTime = LocalDateTime.now(),
-
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
     @Column("UPDATED_AT")
