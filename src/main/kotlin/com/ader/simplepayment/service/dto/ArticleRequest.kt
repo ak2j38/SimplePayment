@@ -5,3 +5,9 @@ data class ArticleCreateRequest(
     val content: String,
     val authorId: Long
 )
+
+data class ArticleUpdateRequest(
+    val title: String?,
+    val content: String?,
+    val authorId: Long?
+)

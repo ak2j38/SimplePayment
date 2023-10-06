@@ -3,6 +3,7 @@ package com.ader.simplepayment.service
 import com.ader.simplepayment.model.Article
 import com.ader.simplepayment.repository.ArticleRepository
 import com.ader.simplepayment.service.dto.ArticleCreateRequest
+import com.ader.simplepayment.service.dto.ArticleUpdateRequest
 import com.ader.simplepayment.service.exception.NotFoundArticleException
 import org.springframework.stereotype.Service
 
@@ -29,5 +30,12 @@ class ArticleService(
         } else {
             articleRepository.findAllByTitleContains(title)
         }
+
+    suspend fun update(id: Long, request: ArticleUpdateRequest): Article {
+        val article = articleRepository.findById(id) ?: throw NotFoundArticleException("Article not found")
+        request.title?.let { article.title = it }
+        request.content?.let { article.content = it }
+        request.authorId?.let { article.authorId = it }
+    }
 
 }
