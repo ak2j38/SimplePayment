@@ -33,9 +33,14 @@ class ArticleService(
 
     suspend fun update(id: Long, request: ArticleUpdateRequest): Article {
         val article = articleRepository.findById(id) ?: throw NotFoundArticleException("Article not found")
-        request.title?.let { article.title = it }
-        request.content?.let { article.content = it }
-        request.authorId?.let { article.authorId = it }
+
+        return articleRepository.save(
+            article.apply {
+                request.title?.let { article.title = it }
+                request.content?.let { article.content = it }
+                request.authorId?.let { article.authorId = it }
+            }
+        )
     }
 
 }

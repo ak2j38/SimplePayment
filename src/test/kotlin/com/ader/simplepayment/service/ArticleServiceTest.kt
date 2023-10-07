@@ -2,6 +2,7 @@ package com.ader.simplepayment.service
 
 import com.ader.simplepayment.repository.ArticleRepository
 import com.ader.simplepayment.service.dto.ArticleCreateRequest
+import com.ader.simplepayment.service.dto.ArticleUpdateRequest
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
@@ -39,5 +40,28 @@ class ArticleServiceTest(
             )
         )
         articleService.getAll(null).toList().size shouldBeGreaterThan 0
+    }
+
+    "update" {
+        val article = articleService.create(
+            ArticleCreateRequest(
+                title = "test title",
+                content = "test content",
+                authorId = 1,
+            )
+        )
+        val updateRequest = ArticleUpdateRequest(
+            title = "update title",
+            content = "update content",
+            authorId = 2,
+        )
+
+        articleService.update(1, updateRequest)
+
+        articleService.get(1).let {
+            it.title shouldBe "update title"
+            it.content shouldBe "update content"
+            it.authorId shouldBe 2
+        }
     }
 })
