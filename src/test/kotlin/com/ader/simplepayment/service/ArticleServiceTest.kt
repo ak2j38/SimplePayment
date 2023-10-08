@@ -76,7 +76,7 @@ class ArticleServiceTest(
                 authorId = 1,
             )
         )
-        
+
         val previous = articleRepository.count()
         articleService.delete(article.id)
         val current = articleRepository.count()
