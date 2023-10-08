@@ -67,4 +67,19 @@ class ArticleServiceTest(
             it.authorId shouldBe 2
         }
     }
+
+    "delete" {
+        val article = articleService.create(
+            ArticleCreateRequest(
+                title = "test title",
+                content = "test content",
+                authorId = 1,
+            )
+        )
+        
+        val previous = articleRepository.count()
+        articleService.delete(article.id)
+        val current = articleRepository.count()
+        previous - 1 shouldBe current
+    }
 })

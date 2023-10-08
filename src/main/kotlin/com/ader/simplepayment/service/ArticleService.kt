@@ -43,4 +43,8 @@ class ArticleService(
         )
     }
 
+    suspend fun delete(id: Long) {
+        articleRepository.deleteById(id)
+    }
+
 }
