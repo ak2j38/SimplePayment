@@ -3,7 +3,6 @@ package com.ader.simplepayment.service
 import com.ader.simplepayment.repository.ArticleRepository
 import com.ader.simplepayment.service.dto.ArticleCreateRequest
 import com.ader.simplepayment.service.dto.ArticleUpdateRequest
-import io.kotest.core.spec.style.FunSpec
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.ints.shouldBeGreaterThan
 import io.kotest.matchers.shouldBe
@@ -16,6 +15,10 @@ class ArticleServiceTest(
     @Autowired private val articleService: ArticleService,
     @Autowired private val articleRepository: ArticleRepository
 ) : StringSpec({
+
+    beforeTest {
+        articleRepository.deleteAll()
+    }
 
     "create and get" {
         val previous = articleRepository.count()
@@ -50,15 +53,15 @@ class ArticleServiceTest(
                 authorId = 1,
             )
         )
+
         val updateRequest = ArticleUpdateRequest(
             title = "update title",
             content = "update content",
             authorId = 2,
         )
+        articleService.update(article.id, updateRequest)
 
-        articleService.update(1, updateRequest)
-
-        articleService.get(1).let {
+        articleService.get(article.id).let {
             it.title shouldBe "update title"
             it.content shouldBe "update content"
             it.authorId shouldBe 2
