@@ -9,11 +9,13 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.ReactiveTransaction
 import org.springframework.transaction.reactive.TransactionalOperator
 import org.springframework.transaction.reactive.executeAndAwait
 
 @SpringBootTest
+@ActiveProfiles("test")
 class ArticleServiceTest(
     @Autowired private val articleService: ArticleService,
     @Autowired private val articleRepository: ArticleRepository,
