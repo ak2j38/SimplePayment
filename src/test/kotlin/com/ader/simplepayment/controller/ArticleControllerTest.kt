@@ -10,9 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest
+@ActiveProfiles("test")
 class ArticleControllerTest(
     @Autowired private val articleRepository: ArticleRepository,
     @Autowired private val articleService: ArticleService,
