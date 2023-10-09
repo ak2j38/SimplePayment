@@ -9,6 +9,7 @@ import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.flow.toList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.transaction.ReactiveTransaction
 import org.springframework.transaction.reactive.TransactionalOperator
 import org.springframework.transaction.reactive.executeAndAwait
 
@@ -20,7 +21,7 @@ class ArticleServiceTest(
 ) : StringSpec({
 
     "create and get" {
-        transactionalOperator.executeAndAwait {
+        transactionalOperator.rollback {
             val previous = articleRepository.count()
             val article = articleService.create(
                 ArticleCreateRequest(
@@ -36,7 +37,7 @@ class ArticleServiceTest(
     }
 
     "getAll" {
-        transactionalOperator.executeAndAwait {
+        transactionalOperator.rollback {
             val created = articleService.create(
                 ArticleCreateRequest(
                     title = "test title",
@@ -44,12 +45,12 @@ class ArticleServiceTest(
                     authorId = 1,
                 )
             )
-            articleService.getAll(null).toList().size shouldBeGreaterThan 0
+            articleService.getAll(created.title).toList().size shouldBeGreaterThan 0
         }
     }
 
     "update" {
-        transactionalOperator.executeAndAwait {
+        transactionalOperator.rollback {
             val article = articleService.create(
                 ArticleCreateRequest(
                     title = "test title",
@@ -74,7 +75,7 @@ class ArticleServiceTest(
     }
 
     "delete" {
-        transactionalOperator.executeAndAwait {
+        transactionalOperator.rollback {
             val article = articleService.create(
                 ArticleCreateRequest(
                     title = "test title",
@@ -90,3 +91,9 @@ class ArticleServiceTest(
         }
     }
 })
+
+suspend fun <T> TransactionalOperator.rollback(function: suspend (ReactiveTransaction) -> T): T =
+    this.executeAndAwait {tx ->
+        tx.setRollbackOnly()
+        function.invoke(tx)
+    }
